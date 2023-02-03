@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 [assembly:InternalsVisibleTo("OscCore.Tests.Editor")]
 [assembly:InternalsVisibleTo("OscCore.Tests.Runtime")]
@@ -230,6 +231,22 @@ namespace OscCore
             return (length + 3) & ~3;            // align to 4 bytes
         }
 
+        private int ReadBlobSize(int offset)
+        {
+            var blobSizeSlice = new Span<byte>(Buffer, offset, sizeof(int));
+            // NOTE: received int bytes is big-endian
+            if (!BitConverter.IsLittleEndian)
+            {
+                return BitConverter.ToInt32(blobSizeSlice);
+            }
+
+            // NOTE: bytes need to be reversed if computer architecture is little-endian
+            Span<byte> swapBuffer = stackalloc byte[4];
+            blobSizeSlice.CopyTo(swapBuffer);
+            swapBuffer.Reverse();
+            return BitConverter.ToInt32(swapBuffer);
+        }
+        
         /// <summary>Find the byte offsets for each element of the message</summary>
         /// <param name="offset">The byte index of the first value</param>
         public void FindOffsets(int offset)
@@ -259,8 +276,8 @@ namespace OscCore
                         offset += GetStringLength(offset);
                         break;
                     case TypeTag.Blob:
-                        // read the int that specifies the size of the blob
-                        offset += 4 + *(int*)(BufferPtr + offset);
+                        // NOTE: total size of OSC-blob is aligned to multiple of 32 bits
+                        offset += (sizeof(int) + ReadBlobSize(offset) + 3) & ~3;
                         break;
                 }
             }
