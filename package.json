@@ -1,9 +1,9 @@
 {
-	"name" : "com.stella3d.osccore",
-	"version" : "1.1.2",
-	"displayName" : "Open Sound Control Core",
-	"description" : "An Open Sound Control (OSC) protocol driver",
-	"unity" : "2019.4",
+	"name" : "com.virtualcast.osccore",
+	"version" : "1.1.3",
+	"displayName" : "Open Sound Control Core (VirtualCast fork)",
+	"description" : "An Open Sound Control (OSC) protocol driver\n(Forked for VirtualCast)",
+	"unity" : "2022.1",
 	"unityRelease" : "",
 	"keywords" : [ "OSC" ],
 	"author" : {
