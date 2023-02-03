@@ -224,7 +224,7 @@ namespace OscCore
             int index;
             for (index = offset; index < end; index++)
             {
-                if (Buffer[index] != 0) break;
+                if (Buffer[index] == 0) break;
             }
 
             var length = index - offset;
