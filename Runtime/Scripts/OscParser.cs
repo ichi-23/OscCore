@@ -77,8 +77,8 @@ namespace OscCore
                 alignedAddressLength += 4;
 
             var startPlusAlignedLength = startingByteOffset + alignedAddressLength;
-            var tagSize = ParseTags(Buffer, startPlusAlignedLength);
-            var offset = startPlusAlignedLength + (tagSize + 4) & ~3;
+            var tagSize = ParseTags(Buffer, startPlusAlignedLength) + 3 & ~3;
+            var offset = startPlusAlignedLength + tagSize;
             FindOffsets(offset);
             return addressLength;
         }
