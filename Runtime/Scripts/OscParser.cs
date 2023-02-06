@@ -52,8 +52,8 @@ namespace OscCore
             if (alignedAddressLength == addressLength)
                 alignedAddressLength += 4;
 
-            var tagSize = ParseTags(Buffer, alignedAddressLength);
-            var offset = alignedAddressLength + (tagSize + 4) & ~3;
+            var tagSize = ParseTags(Buffer, alignedAddressLength) + 3 & ~3;
+            var offset = alignedAddressLength + tagSize;
             FindOffsets(offset);
             return addressLength;
         }
@@ -77,8 +77,8 @@ namespace OscCore
                 alignedAddressLength += 4;
 
             var startPlusAlignedLength = startingByteOffset + alignedAddressLength;
-            var tagSize = ParseTags(Buffer, startPlusAlignedLength);
-            var offset = startPlusAlignedLength + (tagSize + 4) & ~3;
+            var tagSize = ParseTags(Buffer, startPlusAlignedLength) + 3 & ~3;
+            var offset = startPlusAlignedLength + tagSize;
             FindOffsets(offset);
             return addressLength;
         }
@@ -185,7 +185,9 @@ namespace OscCore
 
             MessageValues.ElementCount = outIndex;
 
-            return outIndex + 1; // +1 includes the starting ',' in the tagSize
+            // +1 for the starting ',' in the tagSize,
+            // +1 for null terminator 
+            return outIndex + 2; 
         }
 
         public int FindUnalignedAddressLength()
@@ -227,7 +229,8 @@ namespace OscCore
                 if (Buffer[index] == 0) break;
             }
 
-            var length = index - offset;
+            // NOTE: add +1 for null terminator
+            var length = index - offset + 1;
             return (length + 3) & ~3;            // align to 4 bytes
         }
 
