@@ -66,11 +66,20 @@ namespace OscCore
                     Profiler.EndSample();
                 }
                 // a read timeout can result in a socket exception, should just be ok to ignore
-                catch (SocketException) { }
-                catch (ThreadAbortException) {}
+                catch (SocketException)
+                {
+                }
+                catch (ThreadAbortException)
+                {
+                }
+                // socket might be closed during receive since dispose is called from another thread
+                // should be ok to ignore it
+                catch (ObjectDisposedException)
+                {
+                }
                 catch (Exception e)
                 {
-                    if (!m_Disposed) Debug.LogException(e); 
+                    if (!m_Disposed) Debug.LogException(e);
                     break;
                 }
             }
