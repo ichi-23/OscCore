@@ -63,7 +63,6 @@ namespace OscCore
 #else
                     Server.ParseBuffer(receivedByteCount);
 #endif
-                    Profiler.EndSample();
                 }
                 // a read timeout can result in a socket exception, should just be ok to ignore
                 catch (SocketException)
@@ -83,8 +82,10 @@ namespace OscCore
                     break;
                 }
             }
-            
+
+#if UNITY_EDITOR
             Profiler.EndThreadProfiling();
+#endif
         }
 
         public void Dispose()
