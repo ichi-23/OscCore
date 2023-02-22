@@ -370,8 +370,6 @@ namespace OscCore
 
         public void Dispose()
         {
-            PortToServer.Remove(Port);
-            
             if (m_Disposed) return;
             m_Disposed = true;
 
