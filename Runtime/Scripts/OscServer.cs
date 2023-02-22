@@ -381,11 +381,6 @@ namespace OscCore
             m_Socket.Dispose();
         }
 
-        ~OscServer()
-        {
-            Dispose();
-        }
-
         public int CountHandlers()
         {
             return AddressSpace?.AddressToMethod.SourceToBlob.Count ?? 0;
