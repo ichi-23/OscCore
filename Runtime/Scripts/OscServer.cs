@@ -367,7 +367,7 @@ namespace OscCore
                     addressPtr[i] = (char) bufferPtr[i];
             }
         }
-        
+
         public void Dispose()
         {
             PortToServer.Remove(Port);
