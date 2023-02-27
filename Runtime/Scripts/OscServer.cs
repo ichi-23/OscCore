@@ -367,11 +367,9 @@ namespace OscCore
                     addressPtr[i] = (char) bufferPtr[i];
             }
         }
-        
+
         public void Dispose()
         {
-            PortToServer.Remove(Port);
-            
             if (m_Disposed) return;
             m_Disposed = true;
 
@@ -379,11 +377,6 @@ namespace OscCore
             AddressSpace.AddressToMethod.Dispose();
             AddressSpace = null;
             m_Socket.Dispose();
-        }
-
-        ~OscServer()
-        {
-            Dispose();
         }
 
         public int CountHandlers()
