@@ -17,7 +17,7 @@ namespace OscCore
         /// Will be resized if it lacks sufficient capacity
         /// </param>
         /// <param name="copyOffset">The index in the copyTo array to start copying at</param>
-        /// <returns>The size of the blob if valid, 0 otherwise</returns>
+        /// <returns>The size of the blob if valid, -1 otherwise</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int ReadBlobElement(int index, ref byte[] copyTo, int copyOffset = 0)
         {
@@ -36,7 +36,7 @@ namespace OscCore
                     Buffer.BlockCopy(m_SharedBuffer, dataStart, copyTo, copyOffset, size);
                     return size;
                 default: 
-                    return default;
+                    return -1;
             }
         }
 
